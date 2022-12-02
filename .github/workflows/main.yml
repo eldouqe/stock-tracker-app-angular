@@ -1,0 +1,41 @@
+name: CI / CD for Angular
+on:
+  push:
+    branches: ["v1"]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up node.js
+        uses: actions/setup-node@v3.3.0
+        with:
+          node-version: "16"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Replace secret
+        uses: cschleiden/replace-tokens@v1
+        with:
+          tokenPrefix: "{"
+          tokenSuffix: "}"
+          files: "src/environments/environment.prod.ts"
+
+      - name: Build
+        run: npm run build:prod
+
+      - name: copy
+        run: cp dist/stock-tracker-app-angular/index.html dist/stock-tracker-app-angular/404.html
+
+      - name: Deploy to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: gh-pages
+          build_dir: dist/stock-tracker-app-angular
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
