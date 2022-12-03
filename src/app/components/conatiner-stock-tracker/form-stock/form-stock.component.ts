@@ -25,6 +25,7 @@ export class FormStockComponent implements OnInit {
       stockInputValue.length < 6
     ) {
       this.storeEvent.emit(stockInputValue);
+      this.stockTrackerFormGroup.reset();
     }
   }
 }
