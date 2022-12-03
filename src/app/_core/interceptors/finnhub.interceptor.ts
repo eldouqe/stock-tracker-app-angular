@@ -14,9 +14,10 @@ export class FinnhubInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(
-    request: HttpRequest<unknown>,
+    request: HttpRequest<any>,
     next: HttpHandler
-  ): Observable<HttpEvent<unknown>> {
+  ): Observable<HttpEvent<any>> {
+    //const isFinnhubApi = request.url.includes(`${environment.apiUrlFinnhub}`);
     const add_token_finnhub = request.headers.has('add_token_finnhub');
     if (!add_token_finnhub) {
       return next.handle(request);
@@ -26,6 +27,7 @@ export class FinnhubInterceptor implements HttpInterceptor {
         'token',
         environment.tokenFinnhub
       ),
+      headers: request.headers.delete('add_token_finnhub'),
     });
     return next.handle(request);
   }
