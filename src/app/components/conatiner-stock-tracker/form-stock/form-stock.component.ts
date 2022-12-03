@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -8,6 +8,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class FormStockComponent implements OnInit {
   @Input() stockTrackerFormGroup!: FormGroup;
+  @Output() storeEvent = new EventEmitter();
   constructor() {}
 
   ngOnInit(): void {}
@@ -17,6 +18,13 @@ export class FormStockComponent implements OnInit {
   }
 
   onAdd() {
-    console.log('sss');
+    let stockInputValue: string | null = this.stockInputFormControl?.value;
+    if (
+      stockInputValue &&
+      stockInputValue.length > 0 &&
+      stockInputValue.length < 6
+    ) {
+      this.storeEvent.emit(stockInputValue);
+    }
   }
 }
