@@ -23,6 +23,7 @@ export class ConatinerStockTrackerComponent implements OnInit {
             Validators.required,
             Validators.minLength(1),
             Validators.maxLength(5),
+            Validators.pattern('[a-zA-Z]*'),
           ],
         ],
       }),
