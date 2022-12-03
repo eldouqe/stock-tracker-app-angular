@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,16 +12,32 @@ import { CardStockStatsComponent } from './components/conatiner-stock-tracker/da
 import { ArrowStatsUpComponent } from './shared/arrow-stats-up/arrow-stats-up.component';
 import { ArrowStatsDownComponent } from './shared/arrow-stats-down/arrow-stats-down.component';
 import { CandleComponent } from './shared/components/icons/candle/candle.component';
+import { FinnhubInterceptor } from './_core/interceptors/finnhub.interceptor';
 
 @NgModule({
-  declarations: [AppComponent, ConatinerStockTrackerComponent, FormStockComponent, DashboardComponent, CardStockStatsComponent, ArrowStatsUpComponent, ArrowStatsDownComponent, CandleComponent],
+  declarations: [
+    AppComponent,
+    ConatinerStockTrackerComponent,
+    FormStockComponent,
+    DashboardComponent,
+    CardStockStatsComponent,
+    ArrowStatsUpComponent,
+    ArrowStatsDownComponent,
+    CandleComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: FinnhubInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
