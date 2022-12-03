@@ -11,9 +11,10 @@ import { DashboardComponent } from './components/conatiner-stock-tracker/dashboa
 import { CardStockStatsComponent } from './components/conatiner-stock-tracker/dashboard/card-stock-stats/card-stock-stats.component';
 import { ArrowStatsUpComponent } from './shared/arrow-stats-up/arrow-stats-up.component';
 import { ArrowStatsDownComponent } from './shared/arrow-stats-down/arrow-stats-down.component';
+import { CandleComponent } from './shared/components/icons/candle/candle.component';
 
 @NgModule({
-  declarations: [AppComponent, ConatinerStockTrackerComponent, FormStockComponent, DashboardComponent, CardStockStatsComponent, ArrowStatsUpComponent, ArrowStatsDownComponent],
+  declarations: [AppComponent, ConatinerStockTrackerComponent, FormStockComponent, DashboardComponent, CardStockStatsComponent, ArrowStatsUpComponent, ArrowStatsDownComponent, CandleComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
