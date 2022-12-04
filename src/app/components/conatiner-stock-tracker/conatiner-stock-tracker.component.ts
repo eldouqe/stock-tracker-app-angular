@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StockTrackerService } from 'src/app/services/stock-tracker.service';
+import { Company } from 'src/app/_core/models/Company';
 
 @Component({
   selector: 'app-conatiner-stock-tracker',
@@ -9,6 +10,7 @@ import { StockTrackerService } from 'src/app/services/stock-tracker.service';
 })
 export class ConatinerStockTrackerComponent implements OnInit {
   theForm!: FormGroup;
+  companies: Company[] = [];
   constructor(
     private fb: FormBuilder,
     private stockTrackerService: StockTrackerService
@@ -16,11 +18,19 @@ export class ConatinerStockTrackerComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
-    this.stockTrackerService
-      .getCurrentStocksbySymbols(['AAPL', 'GOOGL'])
-      .subscribe((res) => {
-        console.log('res', res);
-      });
+    this.getStocksCompanies();
+  }
+
+  getStocksCompanies() {
+    let symbols = this.stockTrackerService.getSymbols();
+    if (symbols.length > 0) {
+      this.stockTrackerService
+        .getCurrentStocksbySymbols(symbols)
+        .subscribe((res) => {
+          this.companies = res;
+          console.log(this.companies);
+        });
+    }
   }
 
   private buildForm() {

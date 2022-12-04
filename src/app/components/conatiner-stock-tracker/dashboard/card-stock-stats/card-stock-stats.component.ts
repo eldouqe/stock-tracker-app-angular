@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Company } from 'src/app/_core/models/Company';
+import { Quote } from 'src/app/_core/models/quote';
 
 @Component({
   selector: 'app-card-stock-stats',
   templateUrl: './card-stock-stats.component.html',
-  styleUrls: ['./card-stock-stats.component.css']
+  styleUrls: ['./card-stock-stats.component.css'],
 })
 export class CardStockStatsComponent implements OnInit {
+  @Input() company: Company | null = null;
+  constructor() {}
 
-  constructor() { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  isPourcentagePositive(quote: Quote | undefined): boolean {
+    let dp = quote?.dp;
+    if (dp && dp > 0) {
+      return true;
+    }
+    return false;
   }
-
 }
