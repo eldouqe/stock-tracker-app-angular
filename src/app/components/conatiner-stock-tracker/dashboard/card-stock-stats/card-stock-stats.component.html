@@ -7,9 +7,9 @@
         </h5>
       </div>
 
-      <div (click)="delete(company)">
+      <button id="remove{{ company?.symbol }}" (click)="delete(company)">
         <app-close></app-close>
-      </div>
+      </button>
     </dd>
 
     <div class="flex">
@@ -56,7 +56,10 @@
           <app-arrow-stats
             [arrow]="isPourcentagePositive(company?.quote) ? 'UP' : 'DOWN'"
           ></app-arrow-stats>
-          <a href="#" class="mt-1 text-md text-blue-500"
+          <a
+            routerLink="/sentiment/{{ company?.symbol }}"
+            id="sentiment{{ company?.symbol }}"
+            class="mt-1 text-md text-blue-500"
             >See Sentiment details</a
           >
         </div>
