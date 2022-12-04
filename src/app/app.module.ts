@@ -13,6 +13,7 @@ import { CandleComponent } from './_shared/components/icons/candle/candle.compon
 import { FinnhubInterceptor } from './_core/interceptors/finnhub.interceptor';
 import { CloseComponent } from './_shared/components/icons/close/close.component';
 import { ArrowStatsComponent } from './_shared/components/icons/arrow-stats/arrow-stats.component';
+import { ContainerSentimentComponent } from './components/container-sentiment/container-sentiment.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ArrowStatsComponent } from './_shared/components/icons/arrow-stats/arro
     CandleComponent,
     CloseComponent,
     ArrowStatsComponent,
+    ContainerSentimentComponent,
   ],
   imports: [
     BrowserModule,
