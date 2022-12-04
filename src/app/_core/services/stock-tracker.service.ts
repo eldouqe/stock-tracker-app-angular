@@ -117,4 +117,17 @@ export class StockTrackerService {
       })
     );
   }
+
+  getInsiderSentimentBetweenTwoDatesBySymbol(
+    symbol: string,
+    from: string,
+    to: string
+  ): Observable<Quote> {
+    return this.http.get<Quote>(
+      `${this.finnhubApiUrlV1}/stock/insider-sentiment?symbol=${symbol}&from=${from}&to=${to}`,
+      {
+        headers: { add_token_finnhub: 'true' },
+      }
+    );
+  }
 }

@@ -88,4 +88,14 @@ export class JsService {
     delete object[key];
     return object;
   }
+
+  getDateSystem(): Date {
+    return new Date();
+  }
+
+  getDatePriortoTodayByNumberMonth(nmberMonths: number): Date {
+    var d = this.getDateSystem();
+    d.setMonth(d.getMonth() - nmberMonths);
+    return d;
+  }
 }
