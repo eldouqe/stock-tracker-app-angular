@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Company } from 'src/app/_core/models/Company';
-import { Quote } from 'src/app/_core/models/quote';
+import { Company } from '@models/company';
+import { Quote } from '@models/quote';
 
 @Component({
   selector: 'app-card-stock-stats',

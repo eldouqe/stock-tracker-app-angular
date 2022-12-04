@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Company } from 'src/app/_core/models/Company';
+import { Company } from '@models/company';
 
 @Component({
   selector: 'app-dashboard',

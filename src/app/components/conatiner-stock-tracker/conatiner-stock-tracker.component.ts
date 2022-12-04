@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Company } from '@models/company';
 import { JsService } from 'src/app/_core/services/js.service';
 import { StockTrackerService } from 'src/app/_core/services/stock-tracker.service';
-import { Company } from 'src/app/_core/models/Company';
 
 @Component({
   selector: 'app-conatiner-stock-tracker',
