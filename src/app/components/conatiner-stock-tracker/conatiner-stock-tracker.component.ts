@@ -16,9 +16,11 @@ export class ConatinerStockTrackerComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
-    this.stockTrackerService.getCompanyNameBySymbol('AAPL').subscribe((res) => {
-      console.log('res', res);
-    });
+    this.stockTrackerService
+      .getCurrentStocksbySymbols(['AAPL', 'GOOGL'])
+      .subscribe((res) => {
+        console.log('res', res);
+      });
   }
 
   private buildForm() {
