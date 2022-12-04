@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { JsService } from 'src/app/services/js.service';
-import { StockTrackerService } from 'src/app/services/stock-tracker.service';
+import { JsService } from 'src/app/_core/services/js.service';
+import { StockTrackerService } from 'src/app/_core/services/stock-tracker.service';
 import { Company } from 'src/app/_core/models/Company';
 
 @Component({

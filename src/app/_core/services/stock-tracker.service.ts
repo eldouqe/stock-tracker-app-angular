@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { forkJoin, Observable } from 'rxjs';
-import { Company } from '../_core/models/Company';
-import { Quote } from '../_core/models/quote';
+import { Company } from '../models/Company';
+import { Quote } from '../models/quote';
 
 @Injectable({
   providedIn: 'root',
