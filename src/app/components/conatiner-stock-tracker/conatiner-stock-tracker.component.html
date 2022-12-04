@@ -2,4 +2,7 @@
   [stockTrackerFormGroup]="stockTrackerFormGroup"
   (storeEvent)="store($event)"
 ></app-form-stock>
-<app-dashboard [companies]="companies"></app-dashboard>
+<app-dashboard
+  [companies]="companies"
+  (deleteCompanyEvent)="delete($event)"
+></app-dashboard>

@@ -23,19 +23,43 @@ export class StockTrackerService {
     return symbols;
   }
 
-  private storeToLocalStorage(symbol: string) {
+  private storeToLocalStorage(symbol: string): boolean {
+    let isStored: boolean = false;
     let symbols: string[] = this.getSymbolsFromLocalStorage();
     if (!symbols.includes(symbol.toUpperCase())) {
       symbols.push(symbol.toUpperCase());
       localStorage.setItem('symbols', JSON.stringify(symbols));
+      isStored = true;
+    }
+    return isStored;
+  }
+
+  store(symbol: string): boolean {
+    return this.storeToLocalStorage(symbol);
+  }
+
+  storeAllCompanies(companies: Company[]) {
+    this.storeAllCompaniesToLocalStorage(companies);
+  }
+
+  storeAllCompaniesToLocalStorage(companies: Company[]) {
+    let symbols: string[] = [];
+    companies.forEach((el) => {
+      if (el?.symbol) {
+        symbols.push(el?.symbol);
+      }
+    });
+    if (symbols.length > 0) {
+      localStorage.setItem('symbols', JSON.stringify(symbols));
+    } else {
+      localStorage.setItem('symbols', JSON.stringify([]));
     }
   }
-  store(symbol: string) {
-    this.storeToLocalStorage(symbol);
-  }
+
   getSymbols(): string[] {
     return this.getSymbolsFromLocalStorage();
   }
+
   getCurrentStockBySymbol(symbol: string): Observable<Quote> {
     return this.http.get<Quote>(
       `${this.finnhubApiUrlV1}/quote?symbol=${symbol}`,

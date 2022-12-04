@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Company } from 'src/app/_core/models/Company';
 import { Quote } from 'src/app/_core/models/quote';
 
@@ -9,6 +9,7 @@ import { Quote } from 'src/app/_core/models/quote';
 })
 export class CardStockStatsComponent implements OnInit {
   @Input() company: Company | null = null;
+  @Output() deleteCompanyEvent = new EventEmitter();
   constructor() {}
 
   ngOnInit(): void {}
@@ -19,5 +20,11 @@ export class CardStockStatsComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  delete(company: Company | null) {
+    if (company) {
+      this.deleteCompanyEvent.emit(company);
+    }
   }
 }

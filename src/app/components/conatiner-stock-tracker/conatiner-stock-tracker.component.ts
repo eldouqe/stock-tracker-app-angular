@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { JsService } from 'src/app/services/js.service';
 import { StockTrackerService } from 'src/app/services/stock-tracker.service';
 import { Company } from 'src/app/_core/models/Company';
 
@@ -13,7 +14,8 @@ export class ConatinerStockTrackerComponent implements OnInit {
   companies: Company[] = [];
   constructor(
     private fb: FormBuilder,
-    private stockTrackerService: StockTrackerService
+    private stockTrackerService: StockTrackerService,
+    private jsService: JsService
   ) {}
 
   ngOnInit(): void {
@@ -23,6 +25,7 @@ export class ConatinerStockTrackerComponent implements OnInit {
 
   getStocksCompanies() {
     let symbols = this.stockTrackerService.getSymbols();
+    this.companies = [];
     if (symbols.length > 0) {
       this.stockTrackerService
         .getCurrentStocksbySymbols(symbols)
@@ -54,6 +57,21 @@ export class ConatinerStockTrackerComponent implements OnInit {
   }
 
   store(symbol: string) {
-    this.stockTrackerService.store(symbol);
+    if (this.stockTrackerService.store(symbol)) {
+      this.getStocksCompanies();
+    }
+  }
+
+  delete(company: Company | null) {
+    if (company) {
+      this.companies = this.jsService.spread(
+        this.jsService.deleteObjectElementFromArrayByKey(
+          this.companies,
+          company,
+          'symbol'
+        )
+      );
+      this.stockTrackerService.storeAllCompanies(this.companies);
+    }
   }
 }
