@@ -2,17 +2,20 @@
   <div class="mt-1 flex items-stretch">
     <div class="w-40">
       <h4 class="mt-2 text-md font-medium text-gray-900">
-        {{ insiderSentimentDate | date : "MMMM" }}
+        {{ insiderSentimentDate | date : "MMMM yyyy" }}
       </h4>
     </div>
-    <div>
+    <div *ngIf="_insiderSentiment?.change">
       <app-arrow-stats
         [arrow]="isPositive(_insiderSentiment?.change) ? 'UP' : 'DOWN'"
         [height]="'64px'"
       ></app-arrow-stats>
     </div>
   </div>
-  <div class="mt-1 flex items-stretch">
+  <div
+    *ngIf="_insiderSentiment?.change && _insiderSentiment?.mspr; else no_data"
+    class="mt-1 flex items-stretch"
+  >
     <div class="w-32">
       <h4 class="mt-2 text-sm font-bold text-gray-900">Change :</h4>
       <p class="mt-1 text-md text-gray-500">{{ _insiderSentiment?.change }}</p>
@@ -22,4 +25,9 @@
       <p class="mt-1 text-md text-gray-500">{{ _insiderSentiment?.mspr }}</p>
     </div>
   </div>
+  <ng-template #no_data>
+    <div class="mt-1 flex items-stretch">
+      <p class="mt-4 text-md text-gray-500">No data available</p>
+    </div>
+  </ng-template>
 </div>

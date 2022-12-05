@@ -152,6 +152,20 @@ export class StockTrackerService {
       map((res: [Company, InsiderSentiment[]]) => {
         return { ...res[0], insiderSentiment: res[1] };
       }),
+      map((res) => {
+        if (res.insiderSentiment.length < 3) {
+          let countInsiders = 3 - res.insiderSentiment.length;
+          for (let i = 3 - countInsiders; i <= 2; i++) {
+            var d = new Date(from);
+            d.setMonth(d.getMonth() + i + 1);
+            res.insiderSentiment.push({
+              month: d.getMonth(),
+              year: d.getFullYear(),
+            });
+          }
+        }
+        return res;
+      }),
       finalize(() => {
         this.spinner.hide();
       })

@@ -51,16 +51,6 @@ export class ContainerSentimentComponent implements OnInit {
     }
   }
 
-  isExistsInsiderSentimentByIndex(
-    i: number,
-    insiderSentiment: InsiderSentiment[] | undefined
-  ): boolean {
-    if (insiderSentiment?.[i] !== undefined) {
-      return true;
-    }
-    return false;
-  }
-
   getInsiderSentimentByIndex(
     i: number,
     insiderSentiment: InsiderSentiment[] | undefined

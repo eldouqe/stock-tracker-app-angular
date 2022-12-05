@@ -27,17 +27,11 @@
               class="flex-auto w-64"
               [ngClass]="{ 'pl-2': i > 0 }"
             >
-              <ng-container
-                *ngIf="
-                  isExistsInsiderSentimentByIndex(i, company?.insiderSentiment)
+              <app-card-detail-sentiment
+                [insiderSentiment]="
+                  getInsiderSentimentByIndex(i, company.insiderSentiment)
                 "
-              >
-                <app-card-detail-sentiment
-                  [insiderSentiment]="
-                    getInsiderSentimentByIndex(i, company.insiderSentiment)
-                  "
-                ></app-card-detail-sentiment>
-              </ng-container>
+              ></app-card-detail-sentiment>
             </div>
           </div>
         </div>
