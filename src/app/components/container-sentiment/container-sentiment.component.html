@@ -10,13 +10,13 @@
           [fullScreen]="false"
           ><p style="color: white"></p
         ></ngx-spinner>
-        <div class="block p-6 rounded-lg shadow-lg bg-white">
+        <div *ngIf="company" class="block p-6 rounded-lg shadow-lg bg-white">
           <dd class="mt-1 flex justify-between items-baseline lg:flex">
             <div
               class="flex items-baseline text-2xl font-semibold text-indigo-600"
             >
               <h5 class="text-gray-900 text-xl leading-tight font-medium mb-2">
-                {{ company?.description }} ({{ company?.symbol }})
+                {{ company.description }} ({{ company.symbol }})
               </h5>
             </div>
           </dd>
@@ -34,7 +34,7 @@
               >
                 <app-card-detail-sentiment
                   [insiderSentiment]="
-                    getInsiderSentimentByIndex(i, company?.insiderSentiment)
+                    getInsiderSentimentByIndex(i, company.insiderSentiment)
                   "
                 ></app-card-detail-sentiment>
               </ng-container>
