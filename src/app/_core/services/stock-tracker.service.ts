@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { forkJoin, Observable } from 'rxjs';
 import { Quote } from '@models/quote';
 import { Company } from '@models/company';
+import { InsiderSentiment } from '@models/insider-sentiment';
 
 @Injectable({
   providedIn: 'root',
@@ -122,12 +123,29 @@ export class StockTrackerService {
     symbol: string,
     from: string,
     to: string
-  ): Observable<Quote> {
-    return this.http.get<Quote>(
-      `${this.finnhubApiUrlV1}/stock/insider-sentiment?symbol=${symbol}&from=${from}&to=${to}`,
-      {
-        headers: { add_token_finnhub: 'true' },
-      }
+  ): Observable<InsiderSentiment[]> {
+    return this.http
+      .get<{ data: InsiderSentiment[] }>(
+        `${this.finnhubApiUrlV1}/stock/insider-sentiment?symbol=${symbol}&from=${from}&to=${to}`,
+        {
+          headers: { add_token_finnhub: 'true' },
+        }
+      )
+      .pipe(map((res) => res.data));
+  }
+
+  getInsiderSentimentWithCompanyBySymbole(
+    symbol: string,
+    from: string,
+    to: string
+  ): Observable<Company> {
+    return forkJoin([
+      this.getCompanyBySymbol(symbol),
+      this.getInsiderSentimentBetweenTwoDatesBySymbol(symbol, from, to),
+    ]).pipe(
+      map((res: [Company, InsiderSentiment[]]) => {
+        return { ...res[0], insiderSentiment: res[1] };
+      })
     );
   }
 }

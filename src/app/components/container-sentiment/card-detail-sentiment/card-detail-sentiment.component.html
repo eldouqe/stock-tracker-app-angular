@@ -1,0 +1,25 @@
+<div class="flex flex-col justify-start">
+  <div class="mt-1 flex items-stretch">
+    <div class="w-40">
+      <h4 class="mt-2 text-md font-medium text-gray-900">
+        {{ insiderSentimentDate | date : "MMMM" }}
+      </h4>
+    </div>
+    <div>
+      <app-arrow-stats
+        [arrow]="isPositive(_insiderSentiment?.change) ? 'UP' : 'DOWN'"
+        [height]="'64px'"
+      ></app-arrow-stats>
+    </div>
+  </div>
+  <div class="mt-1 flex items-stretch">
+    <div class="w-32">
+      <h4 class="mt-2 text-sm font-bold text-gray-900">Change :</h4>
+      <p class="mt-1 text-md text-gray-500">{{ _insiderSentiment?.change }}</p>
+    </div>
+    <div>
+      <h4 class="mt-2 text-sm font-bold text-gray-900">MSPR :</h4>
+      <p class="mt-1 text-md text-gray-500">{{ _insiderSentiment?.mspr }}</p>
+    </div>
+  </div>
+</div>

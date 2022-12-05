@@ -1,6 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Company } from '@models/company';
+import { InsiderSentiment } from '@models/insider-sentiment';
 import { JsService } from 'src/app/_core/services/js.service';
 import { StockTrackerService } from 'src/app/_core/services/stock-tracker.service';
 
@@ -12,6 +14,7 @@ import { StockTrackerService } from 'src/app/_core/services/stock-tracker.servic
 })
 export class ContainerSentimentComponent implements OnInit {
   paramSymbol: string | null = null;
+  company: Company | null = null;
   constructor(
     private activatedRoute: ActivatedRoute,
     private stockTrackerService: StockTrackerService,
@@ -23,10 +26,12 @@ export class ContainerSentimentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getInsiderSentiment();
+    if (this.paramSymbol) {
+      this.getInsiderSentimentCompanyBySymbole(this.paramSymbol);
+    }
   }
 
-  getInsiderSentiment() {
+  getInsiderSentimentCompanyBySymbole(symbol: string) {
     const dateFrom = this.datepipe.transform(
       this.jsService.getDatePriortoTodayByNumberMonth(3),
       'yyyy-MM-dd'
@@ -35,16 +40,30 @@ export class ContainerSentimentComponent implements OnInit {
       this.jsService.getDatePriortoTodayByNumberMonth(1),
       'yyyy-MM-dd'
     );
-    if (dateFrom && dateTo && this.paramSymbol) {
+    if (dateFrom && dateTo && symbol) {
       this.stockTrackerService
-        .getInsiderSentimentBetweenTwoDatesBySymbol(
-          this.paramSymbol,
-          dateFrom,
-          dateTo
-        )
-        .subscribe((res) => {
+        .getInsiderSentimentWithCompanyBySymbole(symbol, dateFrom, dateTo)
+        .subscribe((res: Company) => {
           console.log('re', res);
+          this.company = res;
         });
     }
+  }
+
+  isExistsInsiderSentimentByIndex(
+    i: number,
+    insiderSentiment: InsiderSentiment[] | undefined
+  ): boolean {
+    if (insiderSentiment?.[i] !== undefined) {
+      return true;
+    }
+    return false;
+  }
+
+  getInsiderSentimentByIndex(
+    i: number,
+    insiderSentiment: InsiderSentiment[] | undefined
+  ): InsiderSentiment | undefined {
+    return insiderSentiment?.[i];
   }
 }
