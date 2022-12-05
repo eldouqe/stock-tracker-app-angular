@@ -15,6 +15,8 @@ import { CloseComponent } from './_shared/components/icons/close/close.component
 import { ArrowStatsComponent } from './_shared/components/icons/arrow-stats/arrow-stats.component';
 import { ContainerSentimentComponent } from './components/container-sentiment/container-sentiment.component';
 import { CardDetailSentimentComponent } from './components/container-sentiment/card-detail-sentiment/card-detail-sentiment.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { CardDetailSentimentComponent } from './components/container-sentiment/c
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    NgxSpinnerModule,
   ],
   providers: [
     {
