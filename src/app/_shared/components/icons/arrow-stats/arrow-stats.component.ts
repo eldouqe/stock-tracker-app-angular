@@ -7,6 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ArrowStatsComponent implements OnInit {
   @Input() arrow: string | null = null;
+
+  @Input() height: string = '111px';
   constructor() {}
 
   ngOnInit(): void {}
