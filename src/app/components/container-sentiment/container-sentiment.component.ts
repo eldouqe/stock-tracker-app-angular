@@ -20,8 +20,7 @@ export class ContainerSentimentComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private stockTrackerService: StockTrackerService,
     private jsService: JsService,
-    public datepipe: DatePipe,
-    private spinner: NgxSpinnerService
+    public datepipe: DatePipe
   ) {
     this.paramSymbol = this.activatedRoute.snapshot.paramMap.get('symbol');
     console.log(this.paramSymbol);
@@ -43,13 +42,11 @@ export class ContainerSentimentComponent implements OnInit {
       'yyyy-MM-dd'
     );
     if (dateFrom && dateTo && symbol) {
-      this.spinner.show();
       this.stockTrackerService
         .getInsiderSentimentWithCompanyBySymbole(symbol, dateFrom, dateTo)
         .subscribe((res: Company) => {
           console.log('re', res);
           this.company = res;
-          this.spinner.hide();
         });
     }
   }

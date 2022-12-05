@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { map } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 import { forkJoin, Observable } from 'rxjs';
 import { Quote } from '@models/quote';
 import { Company } from '@models/company';
 import { InsiderSentiment } from '@models/insider-sentiment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,7 @@ import { InsiderSentiment } from '@models/insider-sentiment';
 export class StockTrackerService {
   finnhubApiUrlV1 = `${environment.apiUrlFinnhub}/v1`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private spinner: NgxSpinnerService) {}
 
   getSymbolsFromLocalStorage(): string[] {
     let storedSymbols = localStorage.getItem('symbols');
@@ -104,6 +105,7 @@ export class StockTrackerService {
   }
 
   getCurrentStocksbySymbols(symbols: string[]) {
+    this.spinner.show();
     let requestArray: Observable<[Quote, Company]>[] = [];
     symbols.forEach((element) => {
       requestArray.push(this.combineGetCurrentStockAndGetCompany(element));
@@ -115,6 +117,9 @@ export class StockTrackerService {
           arr.push({ ...el[1], quote: el[0] });
         });
         return arr;
+      }),
+      finalize(() => {
+        this.spinner.hide();
       })
     );
   }
@@ -139,12 +144,16 @@ export class StockTrackerService {
     from: string,
     to: string
   ): Observable<Company> {
+    this.spinner.show();
     return forkJoin([
       this.getCompanyBySymbol(symbol),
       this.getInsiderSentimentBetweenTwoDatesBySymbol(symbol, from, to),
     ]).pipe(
       map((res: [Company, InsiderSentiment[]]) => {
         return { ...res[0], insiderSentiment: res[1] };
+      }),
+      finalize(() => {
+        this.spinner.hide();
       })
     );
   }
