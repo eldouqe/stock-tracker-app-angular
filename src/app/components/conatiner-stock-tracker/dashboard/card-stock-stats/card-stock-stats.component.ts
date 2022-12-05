@@ -22,7 +22,7 @@ export class CardStockStatsComponent implements OnInit {
     return false;
   }
 
-  delete(company: Company | null) {
+  delete(company: Company | null): void {
     if (company) {
       this.deleteCompanyEvent.emit(company);
     }

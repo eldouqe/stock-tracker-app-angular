@@ -40,11 +40,11 @@ export class StockTrackerService {
     return this.storeToLocalStorage(symbol);
   }
 
-  storeAllCompanies(companies: Company[]) {
+  storeAllCompanies(companies: Company[]): void {
     this.storeAllCompaniesToLocalStorage(companies);
   }
 
-  storeAllCompaniesToLocalStorage(companies: Company[]) {
+  storeAllCompaniesToLocalStorage(companies: Company[]): void {
     let symbols: string[] = [];
     companies.forEach((el) => {
       if (el?.symbol) {
@@ -104,7 +104,7 @@ export class StockTrackerService {
     ]);
   }
 
-  getCurrentStocksbySymbols(symbols: string[]) {
+  getCurrentStocksbySymbols(symbols: string[]): Observable<Company[]> {
     this.spinner.show();
     let requestArray: Observable<[Quote, Company]>[] = [];
     symbols.forEach((element) => {

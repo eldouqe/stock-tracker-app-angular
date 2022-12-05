@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  deleteCompany(company: Company | null) {
+  deleteCompany(company: Company | null): void {
     if (company) {
       this.deleteCompanyEvent.emit(company);
     }

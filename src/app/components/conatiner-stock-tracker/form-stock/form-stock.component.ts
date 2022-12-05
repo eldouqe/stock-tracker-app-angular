@@ -17,7 +17,7 @@ export class FormStockComponent implements OnInit {
     return this.stockTrackerFormGroup?.get('stockInput') as FormControl;
   }
 
-  onAdd() {
+  onAdd(): void {
     let stockInputValue: string | null = this.stockInputFormControl?.value;
     if (
       stockInputValue &&

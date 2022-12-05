@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Company } from '@models/company';
 import { InsiderSentiment } from '@models/insider-sentiment';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { JsService } from 'src/app/_core/services/js.service';
 import { StockTrackerService } from 'src/app/_core/services/stock-tracker.service';
 
@@ -32,7 +31,7 @@ export class ContainerSentimentComponent implements OnInit {
     }
   }
 
-  getInsiderSentimentCompanyBySymbole(symbol: string) {
+  getInsiderSentimentCompanyBySymbole(symbol: string): void {
     const dateFrom = this.datepipe.transform(
       this.jsService.getDatePriortoTodayByNumberMonth(3),
       'yyyy-MM-dd'

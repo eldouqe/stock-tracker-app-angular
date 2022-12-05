@@ -23,7 +23,7 @@ export class ConatinerStockTrackerComponent implements OnInit {
     this.getStocksCompanies();
   }
 
-  getStocksCompanies() {
+  getStocksCompanies(): void {
     let symbols = this.stockTrackerService.getSymbols();
     this.companies = [];
     if (symbols.length > 0) {
@@ -36,7 +36,7 @@ export class ConatinerStockTrackerComponent implements OnInit {
     }
   }
 
-  private buildForm() {
+  private buildForm(): void {
     this.theForm = this.fb.group({
       stockTrackerForm: this.fb.group({
         stockInput: [
@@ -56,13 +56,13 @@ export class ConatinerStockTrackerComponent implements OnInit {
     return this.theForm?.get('stockTrackerForm') as FormGroup;
   }
 
-  store(symbol: string) {
+  store(symbol: string): void {
     if (this.stockTrackerService.store(symbol)) {
       this.getStocksCompanies();
     }
   }
 
-  delete(company: Company | null) {
+  delete(company: Company | null): void {
     if (company) {
       this.companies = this.jsService.spread(
         this.jsService.deleteObjectElementFromArrayByKey(
