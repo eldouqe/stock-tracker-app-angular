@@ -1,10 +1,11 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Company } from '@models/company';
 import { InsiderSentiment } from '@models/insider-sentiment';
 import { JsService } from 'src/app/_core/services/js.service';
 import { StockTrackerService } from 'src/app/_core/services/stock-tracker.service';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-container-sentiment',
@@ -12,7 +13,8 @@ import { StockTrackerService } from 'src/app/_core/services/stock-tracker.servic
   styleUrls: ['./container-sentiment.component.css'],
   providers: [DatePipe],
 })
-export class ContainerSentimentComponent implements OnInit {
+export class ContainerSentimentComponent implements OnInit, OnDestroy {
+  private subs = new SubSink();
   paramSymbol: string | null = null;
   company: Company | null = null;
   constructor(
@@ -41,12 +43,14 @@ export class ContainerSentimentComponent implements OnInit {
       'yyyy-MM-dd'
     );
     if (dateFrom && dateTo && symbol) {
-      this.stockTrackerService
-        .getInsiderSentimentWithCompanyBySymbole(symbol, dateFrom, dateTo)
-        .subscribe((res: Company) => {
-          console.log('re', res);
-          this.company = res;
-        });
+      this.subs.add(
+        this.stockTrackerService
+          .getInsiderSentimentWithCompanyBySymbole(symbol, dateFrom, dateTo)
+          .subscribe((res: Company) => {
+            console.log('re', res);
+            this.company = res;
+          })
+      );
     }
   }
 
@@ -55,5 +59,9 @@ export class ContainerSentimentComponent implements OnInit {
     insiderSentiment: InsiderSentiment[] | undefined
   ): InsiderSentiment | undefined {
     return insiderSentiment?.[i];
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

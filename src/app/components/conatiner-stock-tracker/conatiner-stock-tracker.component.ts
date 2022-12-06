@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Company } from '@models/company';
 import { JsService } from 'src/app/_core/services/js.service';
 import { StockTrackerService } from 'src/app/_core/services/stock-tracker.service';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'app-conatiner-stock-tracker',
   templateUrl: './conatiner-stock-tracker.component.html',
   styleUrls: ['./conatiner-stock-tracker.component.css'],
 })
-export class ConatinerStockTrackerComponent implements OnInit {
+export class ConatinerStockTrackerComponent implements OnInit, OnDestroy {
+  private subs = new SubSink();
   theForm!: FormGroup;
   companies: Company[] = [];
   constructor(
@@ -27,12 +29,14 @@ export class ConatinerStockTrackerComponent implements OnInit {
     let symbols = this.stockTrackerService.getSymbols();
     this.companies = [];
     if (symbols.length > 0) {
-      this.stockTrackerService
-        .getCurrentStocksbySymbols(symbols)
-        .subscribe((res) => {
-          this.companies = res;
-          console.log(this.companies);
-        });
+      this.subs.add(
+        this.stockTrackerService
+          .getCurrentStocksbySymbols(symbols)
+          .subscribe((res) => {
+            this.companies = res;
+            console.log(this.companies);
+          })
+      );
     }
   }
 
@@ -73,5 +77,9 @@ export class ConatinerStockTrackerComponent implements OnInit {
       );
       this.stockTrackerService.storeAllCompanies(this.companies);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }
